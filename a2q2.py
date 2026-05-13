@@ -61,16 +61,34 @@ def generate_prime_modulus_p(pat):
         if result == True:
             return candidate_number
         
-def compute_r_of_pat(pat, beta, p):
+def compute_r_of(str, start, stop, beta, p):
     result = 0
-    reverse_pat = pat[::-1]
     base = 1
-    for i in range(len(reverse_pat)):
-        result = (result + (ord(reverse_pat[i]) * base)) % p
+    #say we have abc so its index 0,1,2. start is 2 and stop is 0
+    for i in range(start, stop-1, -1):
+        result = (result + (ord(str[i]) * base)) % p
         base = (beta * base) % p
     return result
+
+def pattern_match(txt, pat):
+    m = len(pat)
+    n = len(txt)
+    BETA = 128
+    result = []
+
+    #Find a prime value p so that it can be used to modulate r of pat and portions of txt
+    p_value = generate_prime_modulus_p(pat)
+
+    #The r of pat will be used to compare with r portions of txt and if the value are the same we'll need to perform
+    #explicit comparisons to see if they match for sure.
+    r_of_pat = compute_r_of(pat, m-1, 0,BETA, p_value)
+
+    #Find the first r of txt
+    first_r_of_txt = compute_r_of(txt,  m-1, 0, BETA, p_value)
+
+    for i in range(m+1, )
+    
 
 
 print(modular_exponentiation(7,560,561))
 # print(generate_prime_modulus_p("abcdefghijklmnop"))
-print(reversed("abc"))
