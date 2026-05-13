@@ -1,6 +1,8 @@
+import random
+import sys
+
 # Ekrithyreach Lay
 # Student ID: 33698759
-import random
 
 """
 The algorithm computes for a^b mod n in O(logb) time where b is the number of
@@ -75,6 +77,10 @@ def pattern_match(txt, pat):
     BETA = 128
     result = []
 
+    #Base case as its not possible for the pat to match with the text if it's length exceeds it
+    if m > n:
+        return []
+
     #Find a prime value p so that it can be used to modulate r of pat and portions of txt
     p_value = generate_prime_modulus_p(pat)
 
@@ -109,7 +115,34 @@ def pattern_match(txt, pat):
                                  # if they have the same r value.
     return result
 
+# The overall code has been obtained from the Command-line usage tutorial for Assignments
+# with the modification with the readlines() to readline() as the pattern and text txt files 
+# only contain stuff in the first line.
+def read_file(file_path: str) -> str:
+    f = open(file_path, 'r')
+    line = f.readline()
+    f.close()
+    return line
+
+# The overall code has been obtained from the Command-line usage tutorial for Assignments
+if __name__ == '__main__':
+    #retrieve the file paths from the commandline arguments
+    _, filename1, filename2 = sys.argv
+
+    txt = read_file(filename1)
+    pat = read_file(filename2)
+
+    result = pattern_match(txt, pat)
+
+    # Learned how to open a text file and write into it from 
+    # https://www.w3schools.com/python/python_file_write.asp
+    with open("output_a2q2.txt", 'w') as f:
+        for index in range(len(result)):
+            f.write(str(result[index]+1) + '\n')
+
 
 # print(modular_exponentiation(7,560,561))
 # print(generate_prime_modulus_p("abcdefghijklmnop"))
-print(pattern_match("abcabcabc", "abc"))
+# print(pattern_match("abcabcabc", "abc"))
+# print(pattern_match("babbaababaababaababab", "aababaabab"))
+
