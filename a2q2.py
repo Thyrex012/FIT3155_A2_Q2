@@ -12,7 +12,6 @@ def modular_exponentiation(a, b, n):
     result = 1
     base = a % n
     reversed_binary = binary_b[::-1]
-    print(reversed_binary)
     for bit in reversed_binary:
         if bit == '1':
             result = (result * base) % n
@@ -85,10 +84,32 @@ def pattern_match(txt, pat):
 
     #Find the first r of txt
     first_r_of_txt = compute_r_of(txt,  m-1, 0, BETA, p_value)
+    curr_r_txt = first_r_of_txt
 
-    for i in range(m+1, )
-    
+    if first_r_of_txt == r_of_pat:
+        for index in range(m):
+            if txt[index] != pat[index]:
+                break
+        result.append(0) # The hash value of the text is equal to the hash value of the first portion of txt and the characters
+                         # match each other as well.
+        
+    beta_m_minus_one = modular_exponentiation(BETA,m-1,p_value)
+
+    # We'll need to start from m onwards as it'll be the end point for the txt portion that we'll use to compute for the
+    # next r value of txt.
+    for i in range(m, n):
+        # We can use the previous r value's of txt to compute for the current r because only the first character in r 
+        val_of_first_char_removed = ord(txt[i-m]) * beta_m_minus_one
+        curr_r_txt = ((curr_r_txt - val_of_first_char_removed) * BETA + ord(txt[i])) % p_value
+        if curr_r_txt == r_of_pat:
+            for index in range(m):
+                if txt[i-m+1+index] != pat[index]:
+                    break
+            result.append(i-m+1) # Perform explicit pattern matching with the portion of the text just the one like above 
+                                 # if they have the same r value.
+    return result
 
 
-print(modular_exponentiation(7,560,561))
+# print(modular_exponentiation(7,560,561))
 # print(generate_prime_modulus_p("abcdefghijklmnop"))
+print(pattern_match("abcabcabc", "abc"))
