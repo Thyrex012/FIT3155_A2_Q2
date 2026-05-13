@@ -64,8 +64,11 @@ def generate_prime_modulus_p(pat):
 def compute_r_of_pat(pat, beta, p):
     result = 0
     reverse_pat = pat[::-1]
-    for i in range():
-        result += 
+    base = 1
+    for i in range(len(reverse_pat)):
+        result = (result + (ord(reverse_pat[i]) * base)) % p
+        base = (beta * base) % p
+    return result
 
 
 print(modular_exponentiation(7,560,561))
