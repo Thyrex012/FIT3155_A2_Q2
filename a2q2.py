@@ -27,21 +27,30 @@ We'll assume that n will always be an odd number
 def miller_rabin(n, k):
     s = 0
     t = n - 1
+    #This loop keeps going until t becomes an odd number
     while t % 2 == 0:
         s = s + 1
         t = t//2
     for _ in range(k):
         a = random.randint(2, n-2)
         x = modular_exponentiation(a, t, n)
+        # If x_0 is 1 then this means that any subsequent x_1, x_2,...,x_s and so on would yield 1 as well so we can
+        # skip and continue with the next iteration instead.
         if x == 1:
             continue
-        for j in range(s):
+        for j in range(1, s+1):
             prev_x = x
             x = (x * x) % n
+            # This means that we have encountered our first 1 in x_i
             if x == 1:
+                # To ensure that n is possibly a prime number we'll need to check if x_i-1 is congruent to -1(n-1).
+                # if not then we know for sure that n is not a prime number and can immediatly return false
                 if prev_x != n-1:
                     return False
+                # We'll end the for loop prematurely here as x_i+1, x_i+2, ... , x_s would be 1 anyways
                 break
+        # After running the for loop we'll have x_s which is equivalent to doing a^n-1 mod n and if the value is different
+        # from 1 then we know for sure its composite
         if x != 1:
             return False
     return True
