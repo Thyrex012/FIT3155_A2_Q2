@@ -151,12 +151,12 @@ def pattern_match(txt, pat):
         # r of bcde with the optimisation below
 
         # r_of_abcd = ((a * Beta^3) + (b * Beta^2) + (c * Beta^1) + d) mod p
-        # r_of_bcd_without_a = r_of_abcd - (a * Beta^3)
+        # r_of_abcd_without_a = r_of_abcd - (a * Beta^3)
 
         # We can easily compute for Beta^3 with our modular exponentiation function which we'll only need to compute
         # for once
 
-        # r_of_bcde = (r_of_bcd_without_a * Beta) + e) mod p
+        # r_of_bcde = (r_of_abcd_without_a * Beta) + e) mod p
 
         val_of_first_char_removed = ord(txt[i-m]) * beta_m_minus_one
         r_of_first_char_removed = curr_r_txt - val_of_first_char_removed
